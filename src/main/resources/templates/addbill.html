@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <title>Add Bill</title>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Newzen Ventures</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/bills">Go-Back</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End of Navbar -->
+
+    <!-- Add Bill Form -->
+    <div class="container mt-5">
+        <h2 class="text-center">Add Bill</h2>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <form th:action="@{/billregister}" method="post" enctype="multipart/form-data" th:object="${bill}">
+                    <!-- Add fields for each property of Bill -->
+
+<!-- Add fields for each property of Bill -->
+<div class="form-group">
+    <label>Date</label>
+    <input type="date" class="form-control" name="date">
+</div>
+<div class="form-group">
+    <label for="seller">Seller:</label>
+    <select id="seller" name="name" class="form-control">
+        <!-- Use Thymeleaf to iterate over the sellers and create an option for each -->
+        <option th:each="seller : ${sellers}" th:value="${seller.name}" th:text="${seller.name}"></option>
+    </select>
+</div>
+<div class="form-group">
+    <label>Place</label>
+    <input type="text" class="form-control" name="place">
+</div>
+<!-- Add other fields as needed -->
+<div class="form-group">
+    <label>Vehicle Number</label>
+    <input type="text" class="form-control" name="vehicleNumber">
+</div>
+
+<div class="form-group">
+    <label>Full Vehicle Weight</label>
+    <input type="text" class="form-control" name="fullVehicleWeight">
+</div>
+
+<div class="form-group">
+    <label>Empty Vehicle Weight</label>
+    <input type="text" class="form-control" name="emptyVehicleWeight">
+</div>
+
+<div class="form-group">
+    <label>Weight</label>
+    <input type="text" class="form-control" name="weight">
+</div>
+
+<div class="form-group">
+    <label>Bags</label>
+    <input type="text" class="form-control" name="bags">
+</div>
+
+<div class="form-group">
+    <label>Reduction Weight</label>
+    <input type="text" class="form-control" name="reductionWeight">
+</div>
+
+<div class="form-group">
+    <label>Final Weight</label>
+    <input type="text" class="form-control" name="finalWeight">
+</div>
+<div class="form-group">
+    <label>Rate</label>
+    <input type="text" class="form-control" name="rate">
+</div>
+
+<div class="form-group">
+    <label>Total</label>
+    <input type="text" class="form-control" name="total">
+</div>
+
+<div class="form-group">
+    <label for="modeofpayment">Mode of Payment</label>
+    <select class="form-control" id="modeofpayment" name="modeofpayment" onchange="showTextField()">
+        <option value="">Select ID Type</option>
+        <option value="Online">Online</option>
+        <option value="Cash">Cash</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label>Date Of Payment</label>
+    <input type="date" class="form-control" name="dateOfPayment">
+</div>
+
+<div class="form-group">
+    <label>Invoice Number</label>
+    <input type="text" class="form-control" name="invoiceNumber">
+</div>
+<div class="form-group">
+    <input type="hidden" th:field="*{photos}">
+    <label>Upload Bill</label>
+    <input type="file" class="form-control" name="image" accept="image/*">
+</div>
+
+
+                    
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- End of Add Bill Form -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

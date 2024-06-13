@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+<style>
+  /* Custom CSS for card shadow effect and pop-up on hover */
+  .card {
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Add thick black shadow */
+    transition: transform 0.3s ease; /* Add transition for smooth effect */
+    cursor: pointer; /* Change cursor to pointer on hover */
+  }
+
+  /* Scale up the card on hover */
+  .card:hover {
+    transform: scale(1.05); /* Increase size by 5% */
+  }
+</style>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Newzen Ventures</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+<h1 class="text-center">Welcome to Admin Dashboard </h1>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="card h-100" onclick="redirectTo('/employees')">
+        <img class="card-img-top" src="https://via.placeholder.com/277x180/007bff/ffffff?text=Employee+Card" alt="Employee Card">
+        <div class="card-body">
+          <h5 class="card-title">Employee Card</h5>
+          <p class="card-text">Click anywhere on the card to view employees.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100" onclick="redirectTo('/sellers')">
+        <img class="card-img-top" src="https://via.placeholder.com/277x180/28a745/ffffff?text=Sellers+Card" alt="Sellers Card">
+        <div class="card-body">
+          <h5 class="card-title">Sellers Card</h5>
+          <p class="card-text">Click anywhere on the card to view the sellers.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100" onclick="redirectTo('/markattendance')">
+        <img class="card-img-top" src="https://via.placeholder.com/277x180/ffc107/ffffff?text=Attendance+Card" alt="Attendance Card">
+        <div class="card-body">
+          <h5 class="card-title">Attendance Card</h5>
+          <p class="card-text">Click anywhere on the card to view attendance.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100" onclick="redirectTo('/balance')">
+        <img class="card-img-top" src="https://via.placeholder.com/277x180/dc3545/ffffff?text=Salary+Card" alt="Salary Card">
+        <div class="card-body">
+          <h5 class="card-title">Salary Card</h5>
+          <p class="card-text">Click anywhere on the card to view the salary.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100" onclick="redirectTo('/bills')">
+        <img class="card-img-top" src="https://via.placeholder.com/277x180/6c757d/ffffff?text=Billing+%26+Invoice" alt="Billing & Invoice Card">
+        <div class="card-body">
+          <h5 class="card-title">Billing & Invoice Card</h5>
+          <p class="card-text">Click anywhere on the card to view billing & invoices.</p>
+        </div>
+      </div>
+    </div>
+    <!-- New Card for Expenditures -->
+    <div class="col-md-4 mb-4">
+      <div class="card h-100" onclick="redirectTo('/addexpenditures')">
+        <img class="card-img-top" src="https://via.placeholder.com/277x180/6610f2/ffffff?text=Expenditures+Card" alt="Expenditures Card">
+        <div class="card-body">
+          <h5 class="card-title">Expenditures Card</h5>
+          <p class="card-text">Click anywhere on the card to view expenditures.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<script>
+  // Function to redirect to a specified URL
+  function redirectTo(url) {
+    window.location.href = url;
+  }
+</script>
+

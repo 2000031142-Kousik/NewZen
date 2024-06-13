@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+
+    <title>Bills</title>
+
+    <style>
+        /* Custom CSS for table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+        .action-btns .btn {
+            padding: 0.375rem 0.75rem;
+        }
+        .action-btns .btn-group {
+            display: flex;
+        }
+        .action-btns .btn-group .btn {
+            flex: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Newzen Ventures</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/dashboard">Go-Back</a>
+                </li>
+                
+                <li class="nav-item active">
+                    <a class="nav-link" href="/addbill">Add Bills</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End of Navbar -->
+
+    <!-- Bills Table -->
+    <div class="container-fluid mt-5"> <!-- Use container-fluid for full width -->
+        <h2 class="text-center">Our Bills</h2>
+        <div class="table-responsive"> <!-- Add responsive wrapper to table -->
+            <table class="table table-striped table-bordered">
+                <thead class="bg-primary text-white">
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Date</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Place</th>
+                        <th scope="col">Vehicle Number</th>
+                        <th scope="col">Full Vehicle Weight</th>
+                        <th scope="col">Empty Vehicle Weight</th>
+                        <th scope="col">Weight</th>
+                        <th scope="col">Bags</th>
+                        <th scope="col">Reduction Weight</th>
+                        <th scope="col">Final Weight</th>
+                        <th scope="col">Rate</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Date Of Payment</th>
+                        <th scope="col">Invoice Number</th>
+                        
+                        <th scope="col">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="bill : ${bills}">
+                        <td th:text="${bill.id}"></td>
+                        <td th:text="${bill.date}"></td>
+                        <td th:text="${bill.name}"></td>
+                        <td th:text="${bill.place}"></td>
+                        <td th:text="${bill.vehicleNumber}"></td>
+                        <td th:text="${bill.fullVehicleWeight}"></td>
+                        <td th:text="${bill.emptyVehicleWeight}"></td>
+                        <td th:text="${bill.weight}"></td>
+                        <td th:text="${bill.bags}"></td>
+                        <td th:text="${bill.reductionWeight}"></td>
+                        <td th:text="${bill.finalWeight}"></td>
+                        <td th:text="${bill.rate}"></td>
+                        <td th:text="${bill.total}"></td>
+                        <td th:text="${bill.modeofpayment}"></td>
+                        <td th:text="${bill.dateOfPayment}"></td>
+                        <td th:text="${bill.invoiceNumber}"></td>
+                        
+                        <td class="action-btns">
+						    <div class="btn-group">
+						        <a class="btn btn-primary mr-1" th:href="@{/editbill/{id}(id=${bill.id})}"><i class="fas fa-edit"></i></a>
+						        <a class="btn btn-danger mr-1" th:href="@{/deletebill/{id}(id=${bill.id})}"><i class="fas fa-trash-alt"></i></a>
+						        <a class="btn btn-primary" th:href="@{/download/{id}(id=${bill.id})}"><i class="fas fa-download"></i></a>
+						    </div>
+						</td>
+
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <!-- End of Bills Table -->
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    
+</body>
+</html>

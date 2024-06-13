@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Edit Expenditures</title>
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<style>
+  /* Custom CSS for tab content */
+  .tab-content {
+    margin-top: 20px;
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <a class="navbar-brand" href="/dashboard">Newzen Ventures</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/expenditures">Add Exp</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/expendituresreport">View Exp</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="/dashboard">Go-Back</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" id="emp-tab" data-toggle="tab" href="#emp" role="tab" aria-controls="emp" aria-selected="true">EMP Expenditures</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="seller-tab" data-toggle="tab" href="#seller" role="tab" aria-controls="seller" aria-selected="false">Seller Expenditures</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" id="other-tab" data-toggle="tab" href="#other" role="tab" aria-controls="other" aria-selected="false">Other Expenditures</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <!-- EMP Expenditures Tab -->
+<div class="tab-pane fade show active" id="emp" role="tabpanel" aria-labelledby="emp-tab">
+    <h2>Edit EMP Expenditures</h2>
+    <form action="/updateEmpExpenditures" method="post">
+        <div class="form-group">
+            <label for="empId">Select Employee ID</label>
+            <select class="form-control" id="empId" name="empId" th:required="required">
+                <option value="">Select Employee ID</option>
+                <!-- Populate dropdown with existing employee IDs -->
+<option th:each="employee : ${employees}" th:value="${employee.id}" th:text="${employee.name + ' ( Emp Id: ' + employee.id}+ ' )'">Employee Name</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="empDate">Expenditure Date</label>
+            <input type="date" class="form-control" id="empDate" name="empDate" th:required="required">
+        </div>
+        <div class="form-group">
+            <label for="empAmount">Advance Amount</label>
+            <input type="number" step="0.01" class="form-control" id="empAmount" name="empAmount" th:required="required">
+        </div>
+        <button type="submit" class="btn btn-primary">Update EMP Expenditure</button>
+    </form>
+</div>
+
+
+        <!-- Seller Expenditures Tab -->
+<div class="tab-pane fade" id="seller" role="tabpanel" aria-labelledby="seller-tab">
+    <h2>Edit Seller Expenditures</h2>
+    <form action="/updateSellerExpenditures" method="post">
+        <div class="form-group">
+            <label for="sellerId">Select Seller ID</label>
+            <select class="form-control" id="sellerId" name="sellerId" th:required="required">
+                <option value="">Select Seller ID</option>
+                <!-- Populate dropdown with existing seller IDs and names -->
+                <option th:each="seller : ${sellers}" th:value="${seller.id}" th:text="${seller.name + ' (Seller ID: ' + seller.id + ')'}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="sellerDate">Expenditure Date</label>
+            <input type="date" class="form-control" id="sellerDate" name="sellerDate" th:required="required">
+        </div>
+        <div class="form-group">
+            <label for="sellerAmount">Expenditure Amount</label>
+            <input type="number" step="0.01" class="form-control" id="sellerAmount" name="sellerAmount" th:required="required">
+        </div>
+        <button type="submit" class="btn btn-primary">Update Seller Expenditure</button>
+    </form>
+</div>
+
+
+
+ <!-- Other Expenditures Tab -->
+<div class="tab-pane fade" id="other" role="tabpanel" aria-labelledby="other-tab">
+    <h2>Edit Other Expenditures</h2>
+    <form action="/updateOtherExpenditures" method="post">
+        <div class="form-group">
+            <label for="otherId">Select Expenditure</label>
+            <select class="form-control" id="otherId" name="otherId" required>
+                <option value="">Select Expenditure</option>
+                <!-- Populate dropdown with existing other expenditures -->
+                <option th:each="expenditure : ${otherExpenditures}" th:value="${expenditure.uid}" th:text="${expenditure.name + ' (ID: ' + expenditure.uid + ')'}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="otherDate">Expenditure Date</label>
+            <input type="date" class="form-control" id="otherDate" name="otherDate" required>
+        </div>
+        <div class="form-group">
+            <label for="otherAmount">Expenditure Amount</label>
+            <input type="number" step="0.01" class="form-control" id="otherAmount" name="otherAmount" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Update Other Expenditure</button>
+    </form>
+</div>
+
+
+
+<!-- Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+</html>

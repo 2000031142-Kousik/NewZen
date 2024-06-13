@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee Balance</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        .form-control-sm {
+            width: auto;
+            display: inline-block;
+        }
+        .form-group-custom {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .table-bordered {
+            border: 2px solid black; /* Border for outer table */
+            border-collapse: collapse; /* Ensure borders are properly collapsed */
+        }
+        
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid black; /* Border for table cells */
+        }
+        
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Newzen Ventures</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/dashboard">Go-Back</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End of Navbar -->
+
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1>Employee Balance for <span th:text="${#dates.monthNameShort(#dates.create(currentYear, currentMonth, 1))}"></span>, <span th:text="${currentYear}"></span></h1>
+            <a th:href="@{/download-balance-report(month=${currentMonth}, year=${currentYear})}" class="btn btn-primary">Download CSV</a>
+        </div>
+        <form id="balanceForm" th:action="@{/balance}" method="get">
+            <div class="form-group-custom">
+                <div class="form-group">
+                    <label for="year">Select Year:</label>
+                    <input type="number" class="form-control form-control-sm" id="year" name="year" min="2000" max="2100" th:value="${currentYear}" required>
+                </div>
+                <div class="form-group">
+                    <label for="month">Select Month:</label>
+                    <select class="form-control form-control-sm" id="month" name="month" required>
+                        <option value="">Select Month</option>
+                        <option th:each="i : ${#numbers.sequence(1, 12)}"
+                                th:value="${i}"
+                                th:selected="${i == currentMonth}"
+                                th:text="${#dates.monthNameShort(#dates.create(currentYear, i, 1))}">
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </form>
+
+        <table class="table table-striped table-bordered mb-0">
+            <thead class="bg-primary text-white">
+                <tr>
+                    <th>Employee ID</th>
+                    <th>Employee Name</th>
+                    <th>Total Hours Worked (Monthly)</th>
+                    <th>Total Advance Amount (Monthly)</th>
+                    <th>Balance Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="employee : ${employees}">
+                    <td th:text="${employee.id}"></td>
+                    <td th:text="${employee.name}"></td>
+                    <td th:text="${#numbers.formatDecimal(totalHoursMap[employee.id], 1, 2)}"></td>
+                    <td th:text="${#numbers.formatDecimal(advanceAmountMap[employee.id], 1, 2)}"></td>
+                    <td th:text="${#numbers.formatDecimal((employee.getSalary()/employee.getSlab())*totalHoursMap[employee.id] - advanceAmountMap[employee.id], 1, 2)}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            // Automatically submit form when year or month changes
+            $('#year, #month').change(function(){
+                $('#balanceForm').submit();
+            });
+        });
+    </script>
+</body>
+</html>

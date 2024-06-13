@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Report</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        .table-container {
+            max-height: 575px; /* Set the desired height */
+            overflow-y: auto;
+            position: relative;
+        }
+        .table-container thead th {
+            position: sticky;
+            top: 0;
+            background: #fff; /* Set a white background for the headers */
+            z-index: 2;
+        }
+        .table-container tbody td {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="/dashboard">Newzen Ventures</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/markattendance">Go-Back</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- End of Navbar -->
+
+    <div class="container-fluid mt-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link" id="mark-tab" href="/markattendance" role="tab">Mark Attendance</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="view-tab" href="/viewattendance" role="tab">View Attendance</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="update-tab" href="/updateAttendance" role="tab">Update Attendance</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="view" role="tabpanel" aria-labelledby="view-tab">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h2>Attendance Report</h2>
+                            <div class="d-flex">
+                                <div class="filter-icon mr-3">
+                                    <i class="fas fa-filter"></i>
+                                </div>
+                                <a th:href="@{/download-attendance-report(date=${currentDate}, month=${currentMonth}, year=${currentYear}, sortBy=${sortBy})}" class="btn btn-primary">Download CSV</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="filter-form mb-3" style="display: none;">
+                            <form th:action="@{/viewattendance}" method="get">
+                                <div class="form-group" id="yearField">
+                                    <label for="year">Year:</label>
+                                    <input type="number" class="form-control" id="year" name="year" min="2000" max="2100" th:value="${currentYear}">
+                                </div>
+                                <div class="form-group" id="monthField">
+                                    <label for="month">Month:</label>
+                                    <select class="form-control" id="month" name="month">
+                                        <option value="">Select Month</option>
+                                        <option th:each="i : ${#numbers.sequence(1, 12)}"
+                                                th:value="${i}"
+                                                th:text="${#dates.monthNameShort(#dates.create(currentYear, i, 1))}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="sortBy">Sort by:</label>
+                                    <select class="form-control" id="sortBy" name="sortBy">
+                                        <option value="date">Date</option>
+                                        <option value="monthYear">Month-Year</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" id="dateField">
+                                    <label for="date">Date:</label>
+                                    <input type="date" class="form-control" id="date" name="date" th:value="${currentDate}">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="table-container">
+                            <table class="table table-striped table-bordered">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Attendance Details</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="attendance : ${attendances}">
+                                        <td th:text="${attendance.date}"></td>
+                                        <td>
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Employee ID</th>
+                                                        <th>Employee Name</th>
+                                                        <th>Status</th>
+                                                        <th>In Time</th>
+                                                        <th>Out Time</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr th:each="detail : ${attendance.attendanceDetails}">
+                                                        <td th:text="${detail.employeeId}"></td>
+                                                        <td th:text="${employeeService.getEmpById(detail.employeeId).name}"></td>
+                                                        <td th:text="${attendance.statuses.get(detail.employeeId)}"></td>
+                                                        <td th:text="${detail.intime}"></td>
+                                                        <td th:text="${detail.outtime}"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    $(document).ready(function() {
+        function updateFilterFields() {
+            var sortBy = $('#sortBy').val();
+            if (sortBy === 'date') {
+                $('#dateField').show();
+                $('#monthField').hide();
+                $('#yearField').hide();
+            } else if (sortBy === 'monthYear') {
+                $('#dateField').hide();
+                $('#monthField').show();
+                $('#yearField').show();
+            } else {
+                $('#dateField').hide();
+                $('#monthField').hide();
+                $('#yearField').hide();
+            }
+        }
+
+        $('.filter-icon').click(function() {
+            $('.filter-form').toggle();
+        });
+
+        $('#sortBy').change(function() {
+            updateFilterFields();
+        });
+
+        // Initialize the form fields based on the current sort by value
+        updateFilterFields();
+    });
+</script>
+</body>
+</html>

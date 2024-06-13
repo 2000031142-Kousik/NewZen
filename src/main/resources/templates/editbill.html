@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.com">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Bill</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <a class="navbar-brand" href="#">Newzen Ventures</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+            	<li class="nav-item active">
+                    <a class="nav-link" href="/logout">Logout</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/bills">Go-Back <span class="sr-only">(current)</span></a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container p-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="text-center text-primary">Edit Bill</h4>
+                        <form th:action="@{/updatebill}" method="post"  enctype="multipart/form-data" th:object="${bill}">
+                            <input type="hidden" th:field="*{id}">
+                            <div class="form-group">
+                                <label>Date</label>
+                                <input type="date" class="form-control" th:field="*{date}">
+                            </div>
+                            <div class="form-group">
+                             <div class="form-group">
+    <label for="seller">Seller:</label>
+    <select id="seller" name="name" class="form-control">
+        <!-- Use Thymeleaf to iterate over the sellers and create an option for each -->
+        <option th:each="seller : ${sellers}" th:value="${seller.name}" th:text="${seller.name}"></option>
+    </select>
+</div>
+                            <div class="form-group">
+                                <label>Place</label>
+                                <input type="text" class="form-control" th:field="*{place}" value="${bill.place}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Vehicle Number</label>
+                                <input type="text" class="form-control" th:field="*{vehicleNumber}" value="${bill.vehicleNumber}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Full Vehicle Weight</label>
+                                <input type="number" class="form-control" th:field="*{fullVehicleWeight}" value="${bill.fullVehicleWeight}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Empty Vehicle Weight</label>
+                                <input type="number" class="form-control" th:field="*{emptyVehicleWeight}" value="${bill.emptyVehicleWeight}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Weight</label>
+                                <input type="number" class="form-control" th:field="*{weight}" value="${bill.weight}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Bags</label>
+                                <input type="number" class="form-control" th:field="*{bags}" value="${bill.bags}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Reduction Weight</label>
+                                <input type="number" class="form-control" th:field="*{reductionWeight}" value="${bill.reductionWeight}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Final Weight</label>
+                                <input type="number" class="form-control" th:field="*{finalWeight}" value="${bill.finalWeight}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Rate</label>
+                                <input type="number" class="form-control" th:field="*{rate}" value="${bill.rate}" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Total</label>
+                                <input type="number" class="form-control" th:field="*{total}" value="${bill.total}" required>
+                            </div>
+<div class="form-group">
+    <label for="modeofpayment">Mode of Payment</label>
+    <select class="form-control" id="modeofpayment" name="modeofpayment" th:field="*{modeofpayment}" onchange="showTextField()">
+        <option value="">Select ID Type</option>
+        <option value="Online">Online</option>
+        <option value="Cash">Cash</option>
+        
+    </select>
+</div>
+                            <div class="form-group">
+                                <label>Date of Payment</label>
+                                <input type="date" class="form-control" th:field="*{dateOfPayment}" value="${bill.dateOfPayment}" required>
+                            </div>
+                            	
+                            	<div class="form-group">
+    <label>Invoice Number</label>
+                                <input type="text" class="form-control" th:field="*{invoiceNumber}" value="${bill.invoiceNumber}" required>
+</div>
+<div class="form-group">
+                                <label>Upload New Bill (Optional)</label>
+                                <input type="file" class="form-control" name="image" accept="image/*">
+                            </div>                            	
+                              <button class="btn btn-primary btn-block">Submit</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</body>
+</html>
